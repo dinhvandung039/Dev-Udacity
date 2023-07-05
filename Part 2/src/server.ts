@@ -35,14 +35,18 @@ import { filterImageFromURL, deleteLocalFiles } from "./util/util";
     if (imageUrl) {
       const filteredpath: string = await filterImageFromURL(imageUrl);
 
-      res.sendFile(filteredpath);
+      res.status(200).sendFile(filteredpath);
 
       setTimeout(async () => {
         await deleteLocalFiles([filteredpath]);
       }, 3000);
     } else {
-      res.send("image_url incorrect");
+      res.status(500).send("image_url incorrect");
     }
+  });
+
+  app.get("/badRequest", async (req: Request, res: Response) => {
+    res.status(400).send("bad request");
   });
 
   // Root Endpoint
